@@ -46,7 +46,8 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
         name: service,
         icon: awsServices[service],
         category: findCategoryForService(service),
-      }));
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   };
 
   // Find which category a service belongs to
