@@ -11,6 +11,7 @@ const ChatPanel = ({ isCollapsed, onToggleCollapse }) => {
   const [input, setInput] = useState("");
   const { searchResults, setSearchTerm } = useServiceSearch();
   const messagesEndRef = useRef(null);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     // Scroll to bottom when messages change
@@ -18,6 +19,14 @@ const ChatPanel = ({ isCollapsed, onToggleCollapse }) => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [chatMessages, isCollapsed]);
+
+  const handleToggleCollapse = () => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      onToggleCollapse();
+      setIsAnimating(false);
+    }, 300);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -185,92 +194,145 @@ const ChatPanel = ({ isCollapsed, onToggleCollapse }) => {
   };
 
   return (
-    <div
-      className={`bg-white border-l border-gray-200 h-full flex flex-col transition-all duration-300 ease-in-out ${
-        isCollapsed ? "w-12" : "w-72"
-      }`}
-    >
-      <div className="flex justify-between items-center p-4 border-b border-gray-200">
-        {!isCollapsed && (
-          <h3 className="text-base font-medium text-gray-700">
-            Diagram Assistant
-          </h3>
-        )}
-        <button
-          onClick={onToggleCollapse}
-          className="p-1 rounded-full hover:bg-gray-200 transition-colors"
-          title={
-            isCollapsed ? "Expand assistant panel" : "Collapse assistant panel"
-          }
+    <div className="relative h-full">
+      {/* Fixed-width container that doesn't change size during animation */}
+      <div
+        className={`absolute top-0 right-0 h-full shadow-lg bg-white border-l border-gray-200 transition-all duration-300 ease-in-out ${
+          isCollapsed ? "w-12" : "w-80"
+        }`}
+        style={{ zIndex: 10 }}
+      >
+        {/* Header */}
+        <div className={`flex ${isCollapsed ? 'justify-center' : 'justify-between'} items-center h-14 px-1 border-b border-gray-200`}>
+  {!isCollapsed && (
+    <div className="flex items-center space-x-2 overflow-hidden">
+      <div className="w-6 h-6 rounded-full bg-primary-500 flex items-center justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 text-white"
+          viewBox="0 0 20 20"
+          fill="currentColor"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-gray-500 transition-transform duration-300"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            {isCollapsed ? (
-              // Chat/message icon when collapsed
-
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-              />
-            ) : (
-              // Arrow collapse icon when expanded
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 5l7 7-7 7M5 5l7 7-7 7"
-              />
-            )}
-          </svg>
-        </button>
+          <path
+            fillRule="evenodd"
+            d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+            clipRule="evenodd"
+          />
+        </svg>
       </div>
-
+      <h3 className="font-medium text-gray-800 truncate animate-fade-in">
+        Diagram Assistant
+      </h3>
+    </div>
+  )}
+  <button
+    onClick={handleToggleCollapse}
+    disabled={isAnimating}
+    className={`p-1.5 rounded-full hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 ${
+      isCollapsed ? 'mx-auto' : ''
+    }`}
+    title={isCollapsed ? "Expand assistant panel" : "Collapse assistant panel"}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={`h-5 w-5 text-gray-600 transition-transform duration-300 ${
+        isCollapsed ? "" : "transform rotate-180"
+      }`}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
       {isCollapsed ? (
-        <div className="flex flex-col items-center gap-2 py-3">
-          {chatMessages.length > 0 && (
-            <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs animate-pulse">
-              {chatMessages.length}
-            </div>
-          )}
-        </div>
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+        />
       ) : (
-        <>
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+        />
+      )}
+    </svg>
+  </button>
+</div>
+
+
+        {/* Content */}
+        <div
+          className={`h-[calc(100%-3.5rem)] flex flex-col ${
+            isCollapsed ? "hidden" : "animate-fade-in"
+          }`}
+        >
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             {chatMessages.length === 0 ? (
-              <div className="text-center py-8">
-                <h4 className="text-lg font-medium text-gray-700 mb-2">
+              <div className="text-center py-8 animate-fade-in">
+                <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-primary-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+                <h4 className="text-lg font-medium text-gray-800 mb-3">
                   Welcome to the Architecture Diagram Builder!
                 </h4>
-                <p className="text-gray-500 mb-4">
-                  You can use this assistant to help you build your diagram.
+                <p className="text-gray-600 mb-5 max-w-xs mx-auto">
+                  I can help you build your AWS architecture diagram with simple
+                  commands.
                 </p>
-                <p className="text-gray-600 font-medium mb-2">
-                  Try commands like:
-                </p>
-                <ul className="text-gray-500 text-left mx-auto inline-block">
-                  <li className="mb-1">• "add EC2"</li>
-                  <li className="mb-1">• "find database services"</li>
-                  <li className="mb-1">• "undo"</li>
-                  <li className="mb-1">• "clear"</li>
-                </ul>
+                <div className="bg-gray-50 rounded-lg p-4 max-w-xs mx-auto text-left border border-gray-200">
+                  <p className="text-gray-700 font-medium mb-2">
+                    Try commands like:
+                  </p>
+                  <ul className="text-gray-600 space-y-2">
+                    <li className="flex items-center">
+                      <span className="text-primary-500 mr-2">•</span> "add EC2"
+                    </li>
+                    <li className="flex items-center">
+                      <span className="text-primary-500 mr-2">•</span> "find
+                      database"
+                    </li>
+                    <li className="flex items-center">
+                      <span className="text-primary-500 mr-2">•</span> "undo" or
+                      "redo"
+                    </li>
+                    <li className="flex items-center">
+                      <span className="text-primary-500 mr-2">•</span> "clear"
+                    </li>
+                  </ul>
+                </div>
               </div>
             ) : (
-              chatMessages.map((message) => (
-                <ChatMessage key={message.id} message={message} />
+              chatMessages.map((message, index) => (
+                <div
+                  key={message.id}
+                  className="animate-[fadeInUp_0.3s_ease-out]"
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                >
+                  <ChatMessage message={message} />
+                </div>
               ))
             )}
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Input form */}
           <form
-            className="border-t border-gray-200 p-3 flex gap-2"
+            className="border-t border-gray-200 p-3 flex gap-2 bg-white"
             onSubmit={handleSubmit}
           >
             <input
@@ -278,15 +340,21 @@ const ChatPanel = ({ isCollapsed, onToggleCollapse }) => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type a command or ask for help..."
-              className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="flex-1 px-4 py-2.5 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent shadow-sm"
+              autoComplete="off"
             />
             <button
               type="submit"
-              className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              disabled={!input.trim()}
+              className={`text-white rounded-full w-10 h-10 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 ${
+                input.trim()
+                  ? "bg-primary-500 hover:bg-primary-600 shadow-md"
+                  : "bg-gray-300 cursor-not-allowed"
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
+                className="h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -295,13 +363,22 @@ const ChatPanel = ({ isCollapsed, onToggleCollapse }) => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M5 12h14M12 5l7 7-7 7"
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
                 />
               </svg>
             </button>
           </form>
-        </>
-      )}
+        </div>
+
+        {/* Collapsed view badge */}
+        {isCollapsed && chatMessages.length > 0 && (
+          <div className="flex flex-col items-center gap-2 py-3">
+            <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center text-white text-xs shadow-md animate-pulse-slow">
+              {chatMessages.length}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
