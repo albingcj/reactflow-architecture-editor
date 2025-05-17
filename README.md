@@ -1,70 +1,231 @@
-# Getting Started with Create React App
+# AWS Architecture Diagram Builder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![GitHub stars](https://img.shields.io/github/stars/albingcj/reactflow-architecture-editor?style=social)
+![GitHub forks](https://img.shields.io/github/forks/albingcj/reactflow-architecture-editor?style=social)
+![GitHub issues](https://img.shields.io/github/issues/albingcj/reactflow-architecture-editor)
 
-## Available Scripts
+A powerful, interactive tool for creating AWS architecture diagrams with a user-friendly interface, built with React Flow and Redux.
 
-In the project directory, you can run:
+![AWS Architecture Diagram Builder Demo](https://albingcj.com/projects/p2ptchat.png)
 
-### `npm start`
+## 📋 Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [x] Drag-and-drop AWS service icons to create diagrams
+- [x] Connect services with smoothly styled edges
+- [x] Multi-select and alignment tools for precise layouts
+- [x] AI-powered chat assistant for quick service search and actions
+- [x] Export diagrams as PNG images
+- [x] Import/Export diagram as JSON
+- [x] Undo/Redo functionality
+- [x] Trash bin for easy node deletion
+- [x] Collapsible sidebar panels for maximum workspace
+- [x] Service categorization for easy discovery
+- [x] Interactive MiniMap with toggle control
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🔍 Architecture Overview
 
-### `npm test`
+```mermaid
+flowchart TD
+    A[User Interface] --> B[React Components]
+    B --> C[React Flow]
+    B --> D[Redux Store]
+    D --> E[Diagram State]
+    E --> F[History State]
+    B --> G[AWS Services]
+    B --> H[Chat Assistant]
+    
+    subgraph Components
+        C --> Canvas[Diagram Canvas]
+        C --> Nodes[Service Nodes]
+        C --> Edges[Connections]
+        G --> Sidebar[Services Sidebar]
+        H --> ChatPanel[Chat Panel]
+    end
+    
+    subgraph State Management
+        D --> Actions[Redux Actions]
+        Actions --> Reducers[Redux Reducers]
+        Reducers --> E
+    end
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Getting Started
 
-### `npm run build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Node.js 14.x or higher
+- npm 6.x or higher
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+# Clone the repository
+git clone https://github.com/albingcj/reactflow-architecture-editor.git
+cd reactflow-architecture-editor
 
-### `npm run eject`
+# Install dependencies
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Start development server
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📦 Dependencies
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```mermaid
+graph TD
+    A[AWS Architecture Diagram Builder] --> B[React v18.2.0]
+    A --> C[React Flow v11.8.3]
+    A --> D[Redux Toolkit v1.9.5]
+    A --> E[React Redux v8.1.2]
+    A --> F[html-to-image v1.11.11]
+    A --> G[Tailwind CSS v3.3.3]
+    G --> H[PostCSS v8.4.29]
+    G --> I[Autoprefixer v10.4.15]
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🛠️ Project Structure
 
-## Learn More
+```
+reactflow-architecture-editor/
+├── public/
+│   ├── index.html
+│   └── favicon.ico
+├── src/
+│   ├── assets/
+│   │   └── aws-services.json   # AWS service icons mapping
+│   ├── components/
+│   │   ├── DiagramCanvas/      # Main diagram area
+│   │   ├── NodeTypes/          # Custom node components
+│   │   ├── Sidebar/            # AWS services sidebar
+│   │   ├── ChatPanel/          # AI assistant panel
+│   │   └── Toolbar/            # Action toolbar
+│   ├── hooks/                  # Custom React hooks
+│   ├── store/                  # Redux store configuration
+│   ├── utils/                  # Helper functions
+│   ├── App.jsx                 # Main application component
+│   └── index.js                # Application entry point
+└── tailwind.config.js          # Tailwind CSS configuration
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🖱️ Usage Guide
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Creating a Diagram
 
-### Code Splitting
+1. Browse AWS services in the left sidebar
+2. Drag services onto the canvas
+3. Connect services by dragging from one connection point to another
+4. Use the alignment tools when multiple nodes are selected
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Using the Chat Assistant
 
-### Analyzing the Bundle Size
+The chat assistant supports commands like:
+- `find database` - Search for database services
+- `add EC2` - Add an EC2 instance to the diagram
+- `undo` - Undo the last action
+- `clear` - Clear the entire diagram
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+### Keyboard Shortcuts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+| Shortcut | Action |
+|-------------|---------------------------|
+| Ctrl+Z | Undo |
+| Ctrl+Y | Redo |
+| Delete | Remove selected elements |
+| Shift+Click | Select multiple nodes |
+| Ctrl+A | Select all nodes |
 
-### Advanced Configuration
+## 🔄 Workflow
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```mermaid
+sequenceDiagram
+    participant User
+    participant UI as User Interface
+    participant Store as Redux Store
+    participant RF as React Flow
 
-### Deployment
+    User->>UI: Drags AWS service
+    UI->>Store: dispatch(addNode)
+    Store->>RF: Update nodes state
+    RF->>UI: Render new node
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+    User->>UI: Connects services
+    UI->>Store: dispatch(addEdge)
+    Store->>RF: Update edges state
+    RF->>UI: Render new connection
 
-### `npm run build` fails to minify
+    User->>UI: Clicks Undo
+    UI->>Store: dispatch(undo)
+    Store->>Store: Restore previous state
+    Store->>RF: Update nodes/edges
+    RF->>UI: Render previous state
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    User->>UI: Exports diagram
+    UI->>UI: Generate PNG/JSON
+    UI->>User: Download file
+```
+
+## 🧩 Component Hierarchy
+
+```mermaid
+graph TD
+    App --> DiagramCanvas
+    App --> Sidebar
+    App --> ChatPanel
+    App --> Toolbar
+    
+    DiagramCanvas --> ReactFlow
+    ReactFlow --> ServiceNode
+    ReactFlow --> Edges
+    ReactFlow --> Controls
+    ReactFlow --> MiniMap
+    
+    Sidebar --> ServiceCategories
+    Sidebar --> ServiceList
+    Sidebar --> SearchBar
+    
+    ChatPanel --> ChatMessages
+    ChatPanel --> ChatInput
+    
+    Toolbar --> UndoRedo
+    Toolbar --> AlignmentTools
+    Toolbar --> ExportImport
+```
+
+## 🔌 State Management
+
+The application uses Redux for state management with the following main slices:
+
+- **Diagram Slice**: Manages nodes, edges, and diagram history
+- **UI Slice**: Manages UI state like sidebar collapse, selected tabs, etc.
+
+## 🛣️ Roadmap
+
+- [ ] Responsive design for mobile and tablet devices
+- [ ] Custom themes and diagram styling options
+- [ ] AWS cost estimation based on selected services
+- [ ] Architecture validation based on AWS best practices
+- [ ] Presentation mode for clean diagram viewing
+- [ ] Accessibility improvements
+- [ ] LLM integration with chat assistant
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/feature_Azure`)
+3. Commit your changes
+4. Push to the Dev branch
+5. Open a Pull Request
+
+## 🙏 Acknowledgments
+
+- [React Flow](https://reactflow.dev/) for the powerful diagram framework
+- [Redux Toolkit](https://redux-toolkit.js.org/) for state management
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+
+---
+
+Made with ❤️ by [Albin](https://albingcj.com)
