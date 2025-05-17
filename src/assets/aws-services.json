@@ -1,0 +1,12 @@
+{
+    "EC2": "https://diagrams.mingrammer.com/img/resources/aws/compute/ec2.png",
+    "S3": "https://diagrams.mingrammer.com/img/resources/aws/storage/simple-storage-service-s3.png",
+    "Lambda": "https://diagrams.mingrammer.com/img/resources/aws/compute/lambda.png",
+    "DynamoDB": "https://diagrams.mingrammer.com/img/resources/aws/database/dynamodb.png",
+    "API Gateway": "https://diagrams.mingrammer.com/img/resources/aws/mobile/api-gateway.png",
+    "CloudFront": "https://diagrams.mingrammer.com/img/resources/aws/network/cloudfront.png",
+    "RDS": "https://diagrams.mingrammer.com/img/resources/aws/database/rds.png",
+    "SQS": "https://diagrams.mingrammer.com/img/resources/aws/integration/simple-queue-service-sqs.png",
+    "SNS": "https://diagrams.mingrammer.com/img/resources/aws/integration/simple-notification-service-sns.png",
+    "CloudWatch": "https://diagrams.mingrammer.com/img/resources/aws/management/cloudwatch.png"
+}
