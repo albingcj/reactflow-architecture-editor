@@ -29,7 +29,7 @@ const DiagramCanvas = () => {
   const storeEdges = useSelector((state) => state.diagram.edges);
   const historyCurrentStep = useSelector((state) => state.diagram.currentStep);
   const reactFlowWrapper = useRef(null);
-  const [draggedNode, setDraggedNode] = useState(null);
+  // const [draggedNode, setDraggedNode] = useState(null);
   const [trashVisible, setTrashVisible] = useState(false);
   const [isDraggingOverTrash, setIsDraggingOverTrash] = useState(false);
 
@@ -148,7 +148,7 @@ const DiagramCanvas = () => {
   );
 
   const onNodeDragStart = useCallback((event, node) => {
-    setDraggedNode(node);
+    // setDraggedNode(node);
     setTrashVisible(true);
   }, []);
 
@@ -170,7 +170,7 @@ const DiagramCanvas = () => {
   const onNodeDragStop = useCallback(
     (event, node) => {
       setTrashVisible(false);
-      setDraggedNode(null);
+      // setDraggedNode(null);
 
       // Check if node is dropped on trash bin
       const trashElement = document.getElementById("trash-bin");
