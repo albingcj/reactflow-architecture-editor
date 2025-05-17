@@ -282,10 +282,10 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
                   Search Results
                 </h4>
                 <div
-  className={`flex flex-col gap-1.5 overflow-y-auto relative ${
-    showAllResults ? "max-h-[30vh]" : "max-h-[30vh]"
-  }`}
->
+                  className={`flex flex-col gap-1.5 overflow-y-auto relative ${
+                    showAllResults ? "max-h-[30vh]" : "max-h-[30vh]"
+                  }`}
+                >
                   {(showAllResults
                     ? searchResults
                     : searchResults.slice(0, 3)
