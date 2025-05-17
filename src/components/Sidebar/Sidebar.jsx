@@ -7,8 +7,9 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showAllResults, setShowAllResults] = useState(false);
 
-  // Simplified state management - immediately showing content is more reliable
+  // Animation states
   const [animateIcon, setAnimateIcon] = useState(false);
+  const [animateButton, setAnimateButton] = useState(false);
   const searchInputRef = useRef(null);
   const accordionContentRef = useRef(null);
 
@@ -16,6 +17,35 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
   const toggleAccordion = (category) => {
     setActiveAccordion(activeAccordion === category ? null : category);
   };
+
+  // Handle animation when sidebar state changes
+  useEffect(() => {
+    if (!isCollapsed) {
+      // When expanding, briefly show animation then focus search
+      setAnimateButton(true);
+      setAnimateIcon(true);
+
+      // Reset animations and focus search after animation completes
+      const timer = setTimeout(() => {
+        setAnimateIcon(false);
+        setAnimateButton(false);
+        if (searchInputRef.current) {
+          searchInputRef.current.focus();
+        }
+      }, 200); // Reduced from 400ms
+      return () => clearTimeout(timer);
+    } else {
+      // When collapsing, animate button and reset icon
+      setAnimateButton(true);
+      setAnimateIcon(false);
+
+      // Reset button animation after collapse
+      const timer = setTimeout(() => {
+        setAnimateButton(false);
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [isCollapsed]);
 
   // Calculate which categories contain search matches
   const getCategoriesWithMatches = () => {
@@ -69,24 +99,6 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
     event.dataTransfer.effectAllowed = "move";
   };
 
-  // Handle animation when sidebar state changes
-  useEffect(() => {
-    if (!isCollapsed) {
-      // When expanding, briefly show animation then focus search
-      setAnimateIcon(true);
-      const timer = setTimeout(() => {
-        setAnimateIcon(false);
-        if (searchInputRef.current) {
-          searchInputRef.current.focus();
-        }
-      }, 400);
-      return () => clearTimeout(timer);
-    } else {
-      // When collapsing, just reset animation state
-      setAnimateIcon(false);
-    }
-  }, [isCollapsed]);
-
   // Reset search state when search term is cleared
   useEffect(() => {
     if (!searchTerm) {
@@ -110,9 +122,10 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
         key={service}
         className={`flex items-center gap-2 p-2 bg-white rounded border ${
           isMatch ? "border-blue-300 ring-1 ring-blue-200" : "border-gray-200"
-        } cursor-grab hover:bg-gray-50 transition-colors`}
+        } cursor-grab hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400`}
         draggable
         onDragStart={(e) => handleDragStart(e, service)}
+        tabIndex={0}
       >
         <img
           src={awsServices[service]}
@@ -128,11 +141,6 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
         </span>
       </div>
     );
-  };
-
-  // CSS for animations
-  const fadeInStyle = {
-    animation: "fadeIn 0.3s ease-out forwards",
   };
 
   // Keyframe animations defined inline to ensure they exist
@@ -152,23 +160,66 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
         opacity: 0;
       }
     }
+    
+    @keyframes slideButtonRight {
+      from { 
+        transform: translateX(-10px);
+        opacity: 0.7;
+      }
+      to { 
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideButtonLeft {
+      from { 
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to { 
+        transform: translateX(-10px);
+        opacity: 0.7;
+      }
+    }
   `;
+
+  // Get button animation style
+  const getButtonStyle = () => {
+    if (!animateButton) return {};
+
+    return {
+      animation: isCollapsed
+        ? "slideButtonLeft 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards"
+        : "slideButtonRight 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+    };
+  };
+
+  // CSS for animations - faster now
+  const fadeInStyle = {
+    animation: "fadeIn 0.2s ease-out forwards",
+  };
 
   return (
     <>
       <style>{animationStyles}</style>
       <div
-        className={`bg-gray-50 border-r border-gray-200 h-full flex flex-col transition-all duration-300 ease-in-out ${
+        className={`bg-gray-50 border-r border-gray-200 h-full flex flex-col transition-all duration-200 ease-in-out ${
           isCollapsed ? "w-12" : "w-64"
         } relative`}
       >
-        <div className="flex items-center p-4 border-b border-gray-200">
+        <div
+          className={`flex ${
+            isCollapsed ? "justify-center" : "items-center"
+          } p-4 border-b border-gray-200`}
+        >
           <button
             onClick={onToggleCollapse}
-            className="p-1 rounded-full hover:bg-gray-200 transition-colors flex-shrink-0"
+            className="p-1 rounded-full hover:bg-gray-200 transition-colors flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-blue-400"
             title={
               isCollapsed ? "Expand services panel" : "Collapse services panel"
             }
+            style={getButtonStyle()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +256,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
           <div className="flex flex-col items-center py-4">
             <button
               onClick={onToggleCollapse}
-              className="p-2 rounded-full hover:bg-gray-200 transition-colors group"
+              className="p-2 rounded-full hover:bg-gray-200 transition-colors group focus:outline-none focus:ring-2 focus:ring-blue-400"
               title="Search services"
             >
               <svg
@@ -253,7 +304,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
                 </svg>
                 {searchTerm && (
                   <button
-                    className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-800"
                     onClick={() => setSearchTerm("")}
                   >
                     <svg
@@ -276,7 +327,6 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
             </div>
 
             {/* Search Results */}
-
             {searchTerm && searchResults.length > 0 && (
               <div className="p-3 border-b border-gray-200 bg-gray-50 flex-shrink-0">
                 <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
@@ -284,7 +334,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
                 </h4>
                 <div
                   className={`flex flex-col gap-1.5 overflow-y-auto relative ${
-                    showAllResults ? "max-h-[30vh]" : "max-h-[30vh]"
+                    showAllResults ? "max-h-[29vh]" : "max-h-[100%]"
                   }`}
                 >
                   {(showAllResults
@@ -293,9 +343,10 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
                   ).map((result) => (
                     <div
                       key={result.name}
-                      className="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 cursor-grab hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 cursor-grab hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400"
                       draggable
                       onDragStart={(e) => handleDragStart(e, result.name)}
+                      tabIndex={0}
                     >
                       <img
                         src={result.icon}
@@ -314,11 +365,11 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
                   ))}
 
                   {/* Sticky Button */}
-                  {searchResults.length > 5 && (
+                  {searchResults.length > 3 && (
                     <div className="sticky bottom-0 bg-gray-50 py-2">
                       <button
                         onClick={() => setShowAllResults(!showAllResults)}
-                        className="text-sm text-blue-500 hover:text-blue-700 flex items-center justify-center py-1"
+                        className="text-sm text-blue-500 hover:text-blue-700 flex items-center justify-center py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
                       >
                         {showAllResults
                           ? "Show Less"
@@ -358,7 +409,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
                     className="border-b border-gray-200"
                     style={{
                       ...fadeInStyle,
-                      animationDelay: `${50 + index * 30}ms`,
+                      animationDelay: `${30 + index * 20}ms`, // Faster animation delays
                     }}
                   >
                     <button
@@ -366,7 +417,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
                         activeAccordion === category
                           ? "bg-blue-50"
                           : "hover:bg-gray-100"
-                      }`}
+                      } focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-400`}
                       onClick={() => toggleAccordion(category)}
                     >
                       <div className="flex items-center">
@@ -421,7 +472,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
               width: "20px",
               height: "20px",
               animation:
-                "moveSearchIcon 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+                "moveSearchIcon 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards", // Faster animation
             }}
           >
             <svg
