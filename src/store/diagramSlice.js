@@ -88,23 +88,22 @@ export const diagramSlice = createSlice({
       );
     },
     removeEdge: (state, action) => {
-      const edgeId = action.payload;
-      
-      // Add to history before removing
-      state.history = state.history.slice(0, state.currentStep + 1);
-      state.history.push({
-        type: 'REMOVE_EDGE',
-        payload: edgeId,
-        snapshot: {
-          nodes: [...state.nodes.map(node => ({...node}))],
-          edges: [...state.edges.map(edge => ({...edge}))]
-        }
-      });
-      state.currentStep++;
-      
-      // Update state
-      state.edges = state.edges.filter(edge => edge.id !== edgeId);
-    },
+  const edgeId = action.payload;
+  state.edges = state.edges.filter(edge => edge.id !== edgeId);
+  
+  // Add to history
+  state.history = state.history.slice(0, state.currentStep + 1);
+  state.history.push({
+    type: 'REMOVE_EDGE',
+    payload: edgeId,
+    snapshot: {
+      nodes: [...state.nodes],
+      edges: [...state.edges]
+    }
+  });
+  state.currentStep++;
+}
+,
     undo: (state) => {
       if (state.currentStep >= 0) {
         const action = state.history[state.currentStep];

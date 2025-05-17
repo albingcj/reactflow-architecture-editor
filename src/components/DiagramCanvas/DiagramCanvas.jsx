@@ -7,6 +7,8 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   Panel,
+  useReactFlow,
+  MarkerType,
 } from "reactflow";
 import { useDispatch, useSelector } from "react-redux";
 import "reactflow/dist/style.css";
@@ -16,9 +18,10 @@ import {
   setEdges,
   addEdge as addEdgeAction,
   removeNode,
+  removeEdge,
 } from "../../store/diagramSlice";
 
-// Define nodeTypes outside the component to prevent unnecessary re-renders
+// Define nodeTypes outside the component
 const nodeTypes = {
   service: ServiceNode,
 };
@@ -29,82 +32,117 @@ const DiagramCanvas = () => {
   const storeEdges = useSelector((state) => state.diagram.edges);
   const historyCurrentStep = useSelector((state) => state.diagram.currentStep);
   const reactFlowWrapper = useRef(null);
-  // const [draggedNode, setDraggedNode] = useState(null);
+  const reactFlowInstance = useReactFlow();
+
+  // State for UI elements
   const [trashVisible, setTrashVisible] = useState(false);
   const [isDraggingOverTrash, setIsDraggingOverTrash] = useState(false);
-
-  // Add state for MiniMap visibility
   const [minimapVisible, setMinimapVisible] = useState(true);
 
+  // Selection state for alignment features
+  const [selectedNodes, setSelectedNodes] = useState([]);
+  const [isAlignmentToolVisible, setIsAlignmentToolVisible] = useState(false);
+
+  // State for nodes and edges
   const [nodes, setNodesState, onNodesChange] = useNodesState([]);
   const [edges, setEdgesState, onEdgesChange] = useEdgesState([]);
 
-  // Existing code for tracking history, etc...
   const lastHistoryStepRef = useRef(historyCurrentStep);
 
   // Initialize from Redux store
   useEffect(() => {
-    setNodesState(storeNodes || []);
+    if (storeNodes && storeNodes.length > 0) {
+      // Update node data to include onRemove function
+      const nodesWithCallbacks = storeNodes.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          onRemove: handleRemoveNode,
+        },
+      }));
+      setNodesState(nodesWithCallbacks);
+    } else {
+      setNodesState([]);
+    }
+
     setEdgesState(storeEdges || []);
   }, []);
 
   // Sync with Redux store when nodes change in local state
   useEffect(() => {
-    console.log("Nodes changed in DiagramCanvas:", nodes);
-    dispatch(setNodes(nodes));
+    // Only dispatch if not triggered by Redux update
+    if (historyCurrentStep === lastHistoryStepRef.current) {
+      dispatch(setNodes(nodes));
+    }
   }, [nodes, dispatch]);
 
   // Sync with Redux store when edges change in local state
   useEffect(() => {
-    console.log("Edges changed in DiagramCanvas:", edges);
-    dispatch(setEdges(edges));
+    // Only dispatch if not triggered by Redux update
+    if (historyCurrentStep === lastHistoryStepRef.current) {
+      dispatch(setEdges(edges));
+    }
   }, [edges, dispatch]);
 
-  // Critical: Sync from Redux store when undo/redo happens
+  // Sync from Redux store when undo/redo happens
   useEffect(() => {
-    // Check if historyCurrentStep changed, indicating undo/redo
     if (historyCurrentStep !== lastHistoryStepRef.current) {
-      console.log(
-        "History step changed from",
-        lastHistoryStepRef.current,
-        "to",
-        historyCurrentStep
-      );
-      console.log("Syncing React Flow state with Redux store after undo/redo");
+      // Update nodes with callback functions
+      if (storeNodes && storeNodes.length > 0) {
+        const nodesWithCallbacks = storeNodes.map((node) => ({
+          ...node,
+          data: {
+            ...node.data,
+            onRemove: handleRemoveNode,
+          },
+        }));
+        setNodesState(nodesWithCallbacks);
+      } else {
+        setNodesState([]);
+      }
 
-      // Update React Flow state from Redux store
-      setNodesState(storeNodes || []);
       setEdgesState(storeEdges || []);
-
-      // Update ref
       lastHistoryStepRef.current = historyCurrentStep;
     }
-  }, [
-    historyCurrentStep,
-    storeNodes,
-    storeEdges,
-    setNodesState,
-    setEdgesState,
-  ]);
+  }, [historyCurrentStep, storeNodes, storeEdges]);
 
+  // Callback to handle node removal
+  const handleRemoveNode = useCallback(
+    (nodeId) => {
+      dispatch(removeNode(nodeId));
+    },
+    [dispatch]
+  );
+
+  // Handle edge removal
+  const onEdgeClick = useCallback(
+    (event, edge) => {
+      if (event.altKey || event.ctrlKey) {
+        dispatch(removeEdge(edge.id));
+      }
+    },
+    [dispatch]
+  );
+
+  // Connection handler
   const onConnect = useCallback(
     (params) => {
-      console.log("Connection created with params:", params);
       const newEdge = {
         ...params,
         id: `e-${params.source}-${params.target}-${Date.now()}`,
         animated: false,
         type: "smoothstep",
         style: { stroke: "#555", strokeWidth: 2 },
+        markerEnd: { type: MarkerType.ArrowClosed },
       };
 
-      console.log("Creating new edge:", newEdge);
       setEdgesState((eds) => addEdge(newEdge, eds));
       dispatch(addEdgeAction(newEdge));
     },
     [setEdgesState, dispatch]
   );
 
+  // Drag and drop handlers
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
@@ -119,7 +157,7 @@ const DiagramCanvas = () => {
           event.dataTransfer.getData("application/json")
         );
 
-        // Get canvas position where node is dropped
+        // Get canvas position
         const reactFlowBounds =
           reactFlowWrapper.current.getBoundingClientRect();
         const position = {
@@ -127,6 +165,7 @@ const DiagramCanvas = () => {
           y: event.clientY - reactFlowBounds.top,
         };
 
+        // Create new node with remove callback
         const newNode = {
           id: `node-${Date.now()}`,
           type: "service",
@@ -134,26 +173,25 @@ const DiagramCanvas = () => {
           data: {
             label: serviceData.name,
             icon: serviceData.icon,
+            onRemove: handleRemoveNode,
           },
         };
 
-        console.log("Adding new node:", newNode);
         setNodesState((nds) => nds.concat(newNode));
         dispatch({ type: "diagram/addNode", payload: newNode });
       } catch (error) {
         console.error("Error adding node:", error);
       }
     },
-    [setNodesState, dispatch]
+    [setNodesState, dispatch, handleRemoveNode]
   );
 
-  const onNodeDragStart = useCallback((event, node) => {
-    // setDraggedNode(node);
+  // Trash bin handlers
+  const onNodeDragStart = useCallback(() => {
     setTrashVisible(true);
   }, []);
 
   const onNodeDrag = useCallback((event, node) => {
-    // Check if node is being dragged over the trash bin
     const trashElement = document.getElementById("trash-bin");
     if (trashElement) {
       const trashRect = trashElement.getBoundingClientRect();
@@ -170,9 +208,7 @@ const DiagramCanvas = () => {
   const onNodeDragStop = useCallback(
     (event, node) => {
       setTrashVisible(false);
-      // setDraggedNode(null);
 
-      // Check if node is dropped on trash bin
       const trashElement = document.getElementById("trash-bin");
       if (trashElement) {
         const trashRect = trashElement.getBoundingClientRect();
@@ -183,7 +219,6 @@ const DiagramCanvas = () => {
           event.clientY < trashRect.bottom;
 
         if (isDroppedOnTrash) {
-          console.log("Node dropped on trash, removing:", node.id);
           dispatch(removeNode(node.id));
         }
       }
@@ -193,7 +228,181 @@ const DiagramCanvas = () => {
     [dispatch]
   );
 
-  // Simple toggle function for the MiniMap
+  // Selection and alignment handlers
+  const onSelectionChange = useCallback(({ nodes }) => {
+    setSelectedNodes(nodes || []);
+    setIsAlignmentToolVisible(nodes && nodes.length >= 2);
+  }, []);
+
+  const alignHorizontally = (position) => {
+    if (selectedNodes.length < 2) return;
+
+    // Find target Y position
+    let targetY;
+    if (position === "top") {
+      targetY = Math.min(...selectedNodes.map((node) => node.position.y));
+    } else if (position === "bottom") {
+      targetY = Math.max(
+        ...selectedNodes.map((node) => node.position.y + (node.height || 100))
+      );
+      targetY -= 100; // Adjust for node height
+    } else {
+      // center
+      const centerPositions = selectedNodes.map(
+        (node) => node.position.y + (node.height || 100) / 2
+      );
+      targetY =
+        centerPositions.reduce((sum, pos) => sum + pos, 0) /
+        selectedNodes.length;
+      targetY -= 50; // Adjust for half node height
+    }
+
+    // Update node positions
+    const updatedNodes = nodes.map((node) => {
+      if (selectedNodes.some((selected) => selected.id === node.id)) {
+        let newY = targetY;
+        if (position === "center") {
+          newY = targetY - (node.height || 100) / 2 + 50; // Adjust for center alignment
+        } else if (position === "bottom") {
+          newY = targetY - (node.height || 100) + 100; // Adjust for bottom alignment
+        }
+
+        return {
+          ...node,
+          position: { x: node.position.x, y: newY },
+        };
+      }
+      return node;
+    });
+
+    setNodesState(updatedNodes);
+  };
+
+  const alignVertically = (position) => {
+    if (selectedNodes.length < 2) return;
+
+    // Find target X position
+    let targetX;
+    if (position === "left") {
+      targetX = Math.min(...selectedNodes.map((node) => node.position.x));
+    } else if (position === "right") {
+      targetX = Math.max(
+        ...selectedNodes.map((node) => node.position.x + (node.width || 100))
+      );
+      targetX -= 100; // Adjust for node width
+    } else {
+      // center
+      const centerPositions = selectedNodes.map(
+        (node) => node.position.x + (node.width || 100) / 2
+      );
+      targetX =
+        centerPositions.reduce((sum, pos) => sum + pos, 0) /
+        selectedNodes.length;
+      targetX -= 50; // Adjust for half node width
+    }
+
+    // Update node positions
+    const updatedNodes = nodes.map((node) => {
+      if (selectedNodes.some((selected) => selected.id === node.id)) {
+        let newX = targetX;
+        if (position === "center") {
+          newX = targetX - (node.width || 100) / 2 + 50; // Adjust for center alignment
+        } else if (position === "right") {
+          newX = targetX - (node.width || 100) + 100; // Adjust for right alignment
+        }
+
+        return {
+          ...node,
+          position: { x: newX, y: node.position.y },
+        };
+      }
+      return node;
+    });
+
+    setNodesState(updatedNodes);
+  };
+
+  const distributeHorizontally = () => {
+    if (selectedNodes.length < 3) return;
+
+    // Sort nodes by x position
+    const sortedNodes = [...selectedNodes].sort(
+      (a, b) => a.position.x - b.position.x
+    );
+
+    // Calculate total available width
+    const leftMostNode = sortedNodes[0];
+    const rightMostNode = sortedNodes[sortedNodes.length - 1];
+    const totalWidth = rightMostNode.position.x - leftMostNode.position.x;
+
+    // Calculate equal spacing
+    const spacing = totalWidth / (sortedNodes.length - 1);
+
+    // Update positions
+    const updatedNodes = nodes.map((node) => {
+      const sortedIndex = sortedNodes.findIndex((n) => n.id === node.id);
+
+      if (
+        sortedIndex === -1 ||
+        sortedIndex === 0 ||
+        sortedIndex === sortedNodes.length - 1
+      ) {
+        return node;
+      }
+
+      return {
+        ...node,
+        position: {
+          x: leftMostNode.position.x + spacing * sortedIndex,
+          y: node.position.y,
+        },
+      };
+    });
+
+    setNodesState(updatedNodes);
+  };
+
+  const distributeVertically = () => {
+    if (selectedNodes.length < 3) return;
+
+    // Sort nodes by y position
+    const sortedNodes = [...selectedNodes].sort(
+      (a, b) => a.position.y - b.position.y
+    );
+
+    // Calculate total available height
+    const topMostNode = sortedNodes[0];
+    const bottomMostNode = sortedNodes[sortedNodes.length - 1];
+    const totalHeight = bottomMostNode.position.y - topMostNode.position.y;
+
+    // Calculate equal spacing
+    const spacing = totalHeight / (sortedNodes.length - 1);
+
+    // Update positions
+    const updatedNodes = nodes.map((node) => {
+      const sortedIndex = sortedNodes.findIndex((n) => n.id === node.id);
+
+      if (
+        sortedIndex === -1 ||
+        sortedIndex === 0 ||
+        sortedIndex === sortedNodes.length - 1
+      ) {
+        return node;
+      }
+
+      return {
+        ...node,
+        position: {
+          x: node.position.x,
+          y: topMostNode.position.y + spacing * sortedIndex,
+        },
+      };
+    });
+
+    setNodesState(updatedNodes);
+  };
+
+  // Toggle MiniMap
   const toggleMiniMap = () => {
     setMinimapVisible(!minimapVisible);
   };
@@ -211,31 +420,29 @@ const DiagramCanvas = () => {
         onNodeDragStart={onNodeDragStart}
         onNodeDrag={onNodeDrag}
         onNodeDragStop={onNodeDragStop}
+        onEdgeClick={onEdgeClick}
+        onSelectionChange={onSelectionChange}
         nodeTypes={nodeTypes}
-        defaultEdgeOptions={{ type: "smoothstep" }}
+        defaultEdgeOptions={{
+          type: "smoothstep",
+          markerEnd: { type: MarkerType.ArrowClosed },
+          style: { stroke: "#555", strokeWidth: 2 },
+        }}
         fitView
         snapToGrid
         snapGrid={[15, 15]}
         deleteKeyCode="Delete"
+        multiSelectionKeyCode="Shift"
+        selectionMode={1}
       >
         <Background color="#aaa" gap={16} />
         <Controls />
 
         {/* Toggle button for MiniMap */}
-        <Panel
-          position="bottom-right"
-          className="mr-14 mb-1 rounded"
-          style={{
-            position: "absolute",
-            bottom: "10px",
-            right: "-35px",
-            zIndex: 10,
-            boxShadow: "1px 2px 5px rgba(0, 0, 0, .5)",
-          }}
-        >
+        <Panel position="bottom-right" className="mr-14 mb-1 rounded">
           <button
             onClick={toggleMiniMap}
-            className="bg-white p-1 rounded shadow-md hover:bg-gray-100 transition-colors relative z-10"
+            className="bg-white p-1 rounded shadow-md hover:bg-gray-100 transition-colors"
             title={minimapVisible ? "Hide minimap" : "Show minimap"}
           >
             <svg
@@ -262,12 +469,9 @@ const DiagramCanvas = () => {
         {/* Conditionally render MiniMap */}
         {minimapVisible && (
           <MiniMap
-            nodeColor={(node) => {
-              return "#3182ce";
-            }}
+            nodeColor={() => "#3182ce"}
             maskColor="rgba(0, 0, 0, 0.1)"
             className="bg-white shadow-md rounded"
-            style={{ zIndex: 5 }} // Lower z-index value
           />
         )}
 
@@ -275,9 +479,239 @@ const DiagramCanvas = () => {
           position="top-left"
           className="bg-white p-2 rounded shadow-md m-2 text-xs text-gray-500"
         >
-          Drag services from the sidebar onto the canvas
+          <div>
+            <p>Drag services from the sidebar onto the canvas</p>
+            <p className="mt-1">Hold Shift to select multiple nodes</p>
+            <p className="mt-1">Hold Alt/Ctrl + click on edge to delete it</p>
+          </div>
         </Panel>
 
+        {/* Alignment toolbar */}
+        {isAlignmentToolVisible && (
+          <div className="absolute top-20 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg p-2 flex gap-2 z-50">
+            <div className="border-r border-gray-200 pr-2 flex gap-1">
+              <button
+                className="p-1 hover:bg-gray-100 rounded"
+                onClick={() => alignHorizontally("top")}
+                title="Align tops"
+              >
+                <svg
+                  viewBox="0 0 16 16"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path d="M15 1V3L1 3V1H15Z" fill="#000000"></path>{" "}
+                    <path d="M13 5V15H9L9 5H13Z" fill="#000000"></path>{" "}
+                    <path d="M7 11L7 5H3L3 11H7Z" fill="#000000"></path>{" "}
+                  </g>
+                </svg>
+              </button>
+              <button
+                className="p-1 hover:bg-gray-100 rounded"
+                onClick={() => alignHorizontally("center")}
+                title="Align centers horizontally"
+              >
+                <svg
+                  viewBox="0 0 16 16"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path
+                      d="M16 7H13V1H9L9 15H13V9H16V7Z"
+                      fill="#000000"
+                    ></path>{" "}
+                    <path d="M7 12H3V9H0V7H3V4L7 4L7 12Z" fill="#000000"></path>{" "}
+                  </g>
+                </svg>
+              </button>
+              <button
+                className="p-1 hover:bg-gray-100 rounded"
+                onClick={() => alignHorizontally("bottom")}
+                title="Align bottoms"
+              >
+                <svg
+                  viewBox="0 0 16 16"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path d="M13 11V1H9L9 11H13Z" fill="#000000"></path>{" "}
+                    <path d="M15 15V13L1 13V15L15 15Z" fill="#000000"></path>{" "}
+                    <path d="M7 5L7 11H3L3 5H7Z" fill="#000000"></path>{" "}
+                  </g>
+                </svg>
+              </button>
+            </div>
+
+            <div className="border-r border-gray-200 pr-2 flex gap-1">
+              <button
+                className="p-1 hover:bg-gray-100 rounded"
+                onClick={() => alignVertically("left")}
+                title="Align left"
+              >
+                <svg
+                  viewBox="0 0 16 16"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path d="M1 1H3V15H1V1Z" fill="#000000"></path>{" "}
+                    <path d="M5 13H15V9H5V13Z" fill="#000000"></path>{" "}
+                    <path d="M11 7H5V3H11V7Z" fill="#000000"></path>{" "}
+                  </g>
+                </svg>
+              </button>
+              <button
+                className="p-1 hover:bg-gray-100 rounded"
+                onClick={() => alignVertically("center")}
+                title="Align centers vertically"
+              >
+                <svg
+                  viewBox="0 0 16 16"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path d="M9 0H7V3H4V7H12V3H9V0Z" fill="#000000"></path>{" "}
+                    <path d="M1 13V9H15V13H9V16H7V13H1Z" fill="#000000"></path>{" "}
+                  </g>
+                </svg>
+              </button>
+              <button
+                className="p-1 hover:bg-gray-100 rounded"
+                onClick={() => alignVertically("right")}
+                title="Align right"
+              >
+                <svg
+                  viewBox="0 0 16 16"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path d="M15 1H13V15H15V1Z" fill="#000000"></path>{" "}
+                    <path d="M11 13H1V9H11V13Z" fill="#000000"></path>{" "}
+                    <path d="M5 7H11V3H5V7Z" fill="#000000"></path>{" "}
+                  </g>
+                </svg>
+              </button>
+            </div>
+
+            <div className="flex gap-1">
+              <button
+                className={`p-1 rounded ${
+                  selectedNodes.length >= 3
+                    ? "hover:bg-gray-100"
+                    : "opacity-50 cursor-not-allowed"
+                }`}
+                onClick={distributeHorizontally}
+                title="Distribute horizontally"
+                disabled={selectedNodes.length < 3}
+              >
+                <svg
+                  viewBox="0 0 24.00 24.00"
+                  className="h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="#000000"
+                  stroke="#000000"
+                  stroke-width="0.72"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path d="M2 10V3h1v7zm19 0h1V3h-1zm-5.354-.354l.707.707L20.207 6.5l-3.853-3.854-.707.707L18.293 6H5.707l2.647-2.646-.707-.707L3.793 6.5l3.854 3.854.707-.707L5.707 7h12.586zM13 13h9v9h-9zm1 8h7v-7h-7zM2 13h9v9H2zm1 8h7v-7H3z"></path>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                  </g>
+                </svg>
+              </button>
+              <button
+                className={`p-1 rounded ${
+                  selectedNodes.length >= 3
+                    ? "hover:bg-gray-100"
+                    : "opacity-50 cursor-not-allowed"
+                }`}
+                onClick={distributeVertically}
+                title="Distribute vertically"
+                disabled={selectedNodes.length < 3}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="#000000"
+                  stroke="#000000"
+                  stroke-width="0.72"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path d="M14 2h7v1h-7zm0 20h7v-1h-7zm5-15.293l1.646 1.646.707-.707L17.5 3.793l-3.854 3.853.707.707L17 5.707v12.586l-2.646-2.646-.707.707 3.853 3.853 3.854-3.854-.707-.707L18 18.293V5.707zM2 13h9v9H2zm1 8h7v-7H3zM2 2h9v9H2zm1 8h7V3H3z"></path>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Trash bin */}
         {trashVisible && (
           <div
             id="trash-bin"
