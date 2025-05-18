@@ -2,42 +2,50 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <!-- SEO Tags -->
+    <title>ReactFlow Architecture Editor | Draw Cloud Diagrams</title>
+    <meta name="description" content="A simple diagram editor built with React Flow. Drag AWS-like services to create cloud architecture diagrams." />
+    <meta name="keywords" content="diagram editor, react flow, cloud architecture, AWS diagram tool, PWA, offline-first" />
+    <meta name="author" content="Albin George C. J." />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / LinkedIn / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://draw.albingcj.com/ " />
+    <meta property="og:title" content="ReactFlow Architecture Editor" />
+    <meta property="og:description" content="A simple diagram editor built with React Flow. Drag and drop AWS-like services to create cloud architecture diagrams." />
+    <meta property="og:image" content="%PUBLIC_URL%/android-chrome-512x512.png" />
+    <meta property="og:site_name" content="ReactFlow Architecture Editor" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@albi_in" />
+    <meta name="twitter:title" content="ReactFlow Architecture Editor" />
+    <meta name="twitter:description" content="A simple diagram editor built with React Flow. Drag and drop AWS-like services to create cloud architecture diagrams." />
+    <meta name="twitter:image" content="%PUBLIC_URL%/android-chrome-512x512.png" />
+
+    <!-- Favicon & Manifest -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter :wght@400;600&display=swap" rel="stylesheet" />
+
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      <div class="noscript-message">
+        <h1>Javascript is Disabled</h1>
+        <p>This app requires JavaScript to run. Please enable JavaScript in your browser settings.</p>
+        <p>
+          For help or issues, check out the <a href="https://github.com/albingcj/reactflow-architecture-editor ">GitHub repo</a>.
+        </p>
+      </div>
+    </noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
