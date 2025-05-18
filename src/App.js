@@ -5,6 +5,7 @@ import DiagramCanvas from './components/DiagramCanvas';
 import ChatPanel from './components/ChatPanel';
 import Toolbar from './components/Toolbar';
 import { useDiagramHistory } from './hooks/useDiagramHistory';
+import { useSelector } from 'react-redux';
 
 const App = () => {
   const nodes = useSelector(state => state.diagram.nodes);

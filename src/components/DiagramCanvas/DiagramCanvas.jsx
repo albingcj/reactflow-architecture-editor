@@ -7,7 +7,6 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   Panel,
-  useReactFlow,
   MarkerType,
 } from "reactflow";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +31,6 @@ const DiagramCanvas = () => {
   const storeEdges = useSelector((state) => state.diagram.edges);
   const historyCurrentStep = useSelector((state) => state.diagram.currentStep);
   const reactFlowWrapper = useRef(null);
-  const reactFlowInstance = useReactFlow();
 
   // State for UI elements
   const [trashVisible, setTrashVisible] = useState(false);
