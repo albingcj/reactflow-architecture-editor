@@ -1,0 +1,1098 @@
+{
+  "nodes": [
+    {
+      "id": "node-1747553846444",
+      "type": "service",
+      "position": {
+        "x": -90,
+        "y": 279.5
+      },
+      "data": {
+        "label": "Users",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/general/users.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -90,
+        "y": 360
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553861822",
+      "type": "service",
+      "position": {
+        "x": 85.71428571428572,
+        "y": 279.5
+      },
+      "data": {
+        "label": "CloudFront",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/network/cloudfront.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 105,
+        "y": 270
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553872186",
+      "type": "service",
+      "position": {
+        "x": 243.8571428571429,
+        "y": 271.5
+      },
+      "data": {
+        "label": "SimpleStorageServiceS3",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/storage/simple-storage-service-s3.png"
+      },
+      "width": 100,
+      "height": 104,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 225,
+        "y": 285
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553887413",
+      "type": "service",
+      "position": {
+        "x": 261.8571428571429,
+        "y": 165
+      },
+      "data": {
+        "label": "Cognito",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/security/cognito.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 255,
+        "y": 165
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553899692",
+      "type": "service",
+      "position": {
+        "x": 261.8571428571429,
+        "y": 46.28571428571429
+      },
+      "data": {
+        "label": "Dynamodb",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/database/dynamodb.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 270,
+        "y": 30
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553914729",
+      "type": "service",
+      "position": {
+        "x": 495,
+        "y": 46.28571428571429
+      },
+      "data": {
+        "label": "LambdaFunction",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/compute/lambda-function.png"
+      },
+      "width": 91,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 495,
+        "y": 30
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553936465",
+      "type": "service",
+      "position": {
+        "x": 439.02857142857135,
+        "y": 279.5
+      },
+      "data": {
+        "label": "APIGateway",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/network/api-gateway.png"
+      },
+      "width": 65,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 435,
+        "y": 270
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553943810",
+      "type": "service",
+      "position": {
+        "x": 612.8571428571429,
+        "y": 279.5
+      },
+      "data": {
+        "label": "Appsync",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/mobile/appsync.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 570,
+        "y": 270
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553955732",
+      "type": "service",
+      "position": {
+        "x": 135,
+        "y": 465
+      },
+      "data": {
+        "label": "Amplify",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/mobile/amplify.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 135,
+        "y": 465
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553969560",
+      "type": "service",
+      "position": {
+        "x": 243.8571428571429,
+        "y": 465
+      },
+      "data": {
+        "label": "SimpleStorageServiceS3",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/storage/simple-storage-service-s3.png"
+      },
+      "width": 100,
+      "height": 104,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 225,
+        "y": 465
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553979850",
+      "type": "service",
+      "position": {
+        "x": 439.02857142857135,
+        "y": 435
+      },
+      "data": {
+        "label": "APIGateway",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/network/api-gateway.png"
+      },
+      "width": 65,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 435,
+        "y": 435
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553988820",
+      "type": "service",
+      "position": {
+        "x": 433.52857142857135,
+        "y": 555
+      },
+      "data": {
+        "label": "ToolsAndSdks",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/devtools/tools-and-sdks.png"
+      },
+      "width": 76,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 435,
+        "y": 555
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747553997611",
+      "type": "service",
+      "position": {
+        "x": 439.52857142857135,
+        "y": 675
+      },
+      "data": {
+        "label": "Config",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/management/config.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 435,
+        "y": 675
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554018106",
+      "type": "service",
+      "position": {
+        "x": 690,
+        "y": 45
+      },
+      "data": {
+        "label": "LambdaFunction",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/compute/lambda-function.png"
+      },
+      "width": 91,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 690,
+        "y": 45
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554030797",
+      "type": "service",
+      "position": {
+        "x": 825,
+        "y": 45
+      },
+      "data": {
+        "label": "Athena",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/analytics/athena.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 825,
+        "y": 45
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554048025",
+      "type": "service",
+      "position": {
+        "x": 930,
+        "y": 45
+      },
+      "data": {
+        "label": "SimpleStorageServiceS3",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/storage/simple-storage-service-s3.png"
+      },
+      "width": 100,
+      "height": 104,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 930,
+        "y": 45
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554062228",
+      "type": "service",
+      "position": {
+        "x": 1035,
+        "y": 45
+      },
+      "data": {
+        "label": "CostAndUsageReport",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/cost/cost-and-usage-report.png"
+      },
+      "width": 100,
+      "height": 104,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1035,
+        "y": 45
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554076530",
+      "type": "service",
+      "position": {
+        "x": 1155,
+        "y": 45
+      },
+      "data": {
+        "label": "SimpleStorageServiceS3",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/storage/simple-storage-service-s3.png"
+      },
+      "width": 100,
+      "height": 104,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1155,
+        "y": 45
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554091686",
+      "type": "service",
+      "position": {
+        "x": 788.5714285714287,
+        "y": 279.5
+      },
+      "data": {
+        "label": "LambdaFunction",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/compute/lambda-function.png"
+      },
+      "width": 91,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 765,
+        "y": 255
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554109166",
+      "type": "service",
+      "position": {
+        "x": 780,
+        "y": 405
+      },
+      "data": {
+        "label": "IotLambda",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/iot/iot-lambda.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 780,
+        "y": 405
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554120498",
+      "type": "service",
+      "position": {
+        "x": 964.2857142857142,
+        "y": 279.5
+      },
+      "data": {
+        "label": "Neptune",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/database/neptune.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 915,
+        "y": 255
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554129617",
+      "type": "service",
+      "position": {
+        "x": 945,
+        "y": 405
+      },
+      "data": {
+        "label": "AmazonOpensearchService",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/analytics/amazon-opensearch-service.png"
+      },
+      "width": 100,
+      "height": 104,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 945,
+        "y": 405
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554146345",
+      "type": "service",
+      "position": {
+        "x": 810,
+        "y": 540
+      },
+      "data": {
+        "label": "ElasticContainerService",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/compute/elastic-container-service.png"
+      },
+      "width": 100,
+      "height": 104,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 810,
+        "y": 540
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554153346",
+      "type": "service",
+      "position": {
+        "x": 705,
+        "y": 690
+      },
+      "data": {
+        "label": "Fargate",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/compute/fargate.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 705,
+        "y": 690
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554169324",
+      "type": "service",
+      "position": {
+        "x": 900,
+        "y": 690
+      },
+      "data": {
+        "label": "EC2ContainerRegistry",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/compute/ec2-container-registry.png"
+      },
+      "width": 100,
+      "height": 104,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 900,
+        "y": 690
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554181893",
+      "type": "service",
+      "position": {
+        "x": 1065,
+        "y": 675
+      },
+      "data": {
+        "label": "EC2ContainerRegistryImage",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/compute/ec2-container-registry-image.png"
+      },
+      "width": 100,
+      "height": 104,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1065,
+        "y": 675
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554195631",
+      "type": "service",
+      "position": {
+        "x": 1080,
+        "y": 525
+      },
+      "data": {
+        "label": "Codebuild",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/devtools/codebuild.png"
+      },
+      "width": 64,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1080,
+        "y": 525
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554211437",
+      "type": "service",
+      "position": {
+        "x": 1080,
+        "y": 390
+      },
+      "data": {
+        "label": "Codepipeline",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/devtools/codepipeline.png"
+      },
+      "width": 72,
+      "height": 88,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1080,
+        "y": 390
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1747554235759",
+      "type": "service",
+      "position": {
+        "x": 1065,
+        "y": 270
+      },
+      "data": {
+        "label": "SimpleStorageServiceS3",
+        "icon": "https://diagrams.mingrammer.com/img/resources/aws/storage/simple-storage-service-s3.png"
+      },
+      "width": 100,
+      "height": 104,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1065,
+        "y": 270
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553846444",
+      "sourceHandle": "right-source",
+      "target": "node-1747553861822",
+      "targetHandle": "left-target",
+      "id": "e-node-1747553846444-node-1747553861822-1747554253153",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553861822",
+      "sourceHandle": "right-source",
+      "target": "node-1747553872186",
+      "targetHandle": "left-target",
+      "id": "e-node-1747553861822-node-1747553872186-1747554257963",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553872186",
+      "sourceHandle": "top-source",
+      "target": "node-1747553527729",
+      "targetHandle": "bottom-target",
+      "id": "e-node-1747553872186-node-1747553527729-1747554263865",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553872186",
+      "sourceHandle": "top-source",
+      "target": "node-1747553887413",
+      "targetHandle": "bottom-target",
+      "id": "e-node-1747553872186-node-1747553887413-1747554265857",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553936465",
+      "sourceHandle": "right-source",
+      "target": "node-1747553943810",
+      "targetHandle": "left-target",
+      "id": "e-node-1747553936465-node-1747553943810-1747554282048",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553943810",
+      "sourceHandle": "left-source",
+      "target": "node-1747553936465",
+      "targetHandle": "right-target",
+      "id": "e-node-1747553943810-node-1747553936465-1747554284830",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553936465",
+      "sourceHandle": "top-source",
+      "target": "node-1747553914729",
+      "targetHandle": "bottom-target",
+      "id": "e-node-1747553936465-node-1747553914729-1747554292390",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553943810",
+      "sourceHandle": "top-source",
+      "target": "node-1747553914729",
+      "targetHandle": "bottom-target",
+      "id": "e-node-1747553943810-node-1747553914729-1747554297134",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553936465",
+      "sourceHandle": "top-source",
+      "target": "node-1747553887413",
+      "targetHandle": "right-target",
+      "id": "e-node-1747553936465-node-1747553887413-1747554308745",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553943810",
+      "sourceHandle": "top-source",
+      "target": "node-1747553887413",
+      "targetHandle": "right-target",
+      "id": "e-node-1747553943810-node-1747553887413-1747554313378",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553914729",
+      "sourceHandle": "left-source",
+      "target": "node-1747553899692",
+      "targetHandle": "right-target",
+      "id": "e-node-1747553914729-node-1747553899692-1747554318166",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553872186",
+      "sourceHandle": "right-source",
+      "target": "node-1747553936465",
+      "targetHandle": "left-target",
+      "id": "e-node-1747553872186-node-1747553936465-1747554325257",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553872186",
+      "sourceHandle": "bottom-source",
+      "target": "node-1747553969560",
+      "targetHandle": "top-target",
+      "id": "e-node-1747553872186-node-1747553969560-1747554336487",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553872186",
+      "sourceHandle": "bottom-source",
+      "target": "node-1747553955732",
+      "targetHandle": "top-target",
+      "id": "e-node-1747553872186-node-1747553955732-1747554339040",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553943810",
+      "sourceHandle": "right-source",
+      "target": "node-1747554018106",
+      "targetHandle": "left-target",
+      "id": "e-node-1747553943810-node-1747554018106-1747554361991",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553943810",
+      "sourceHandle": "right-source",
+      "target": "node-1747554091686",
+      "targetHandle": "left-target",
+      "id": "e-node-1747553943810-node-1747554091686-1747554368276",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554091686",
+      "sourceHandle": "right-source",
+      "target": "node-1747554120498",
+      "targetHandle": "left-target",
+      "id": "e-node-1747554091686-node-1747554120498-1747554376967",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554120498",
+      "sourceHandle": "left-source",
+      "target": "node-1747554091686",
+      "targetHandle": "right-target",
+      "id": "e-node-1747554120498-node-1747554091686-1747554379127",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554109166",
+      "sourceHandle": "right-source",
+      "target": "node-1747554129617",
+      "targetHandle": "left-target",
+      "id": "e-node-1747554109166-node-1747554129617-1747554395055",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554129617",
+      "sourceHandle": "left-source",
+      "target": "node-1747554109166",
+      "targetHandle": "right-target",
+      "id": "e-node-1747554129617-node-1747554109166-1747554397005",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554153346",
+      "sourceHandle": "left-source",
+      "target": "node-1747553979850",
+      "targetHandle": "right-target",
+      "id": "e-node-1747554153346-node-1747553979850-1747554425879",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554153346",
+      "sourceHandle": "left-source",
+      "target": "node-1747553988820",
+      "targetHandle": "right-target",
+      "id": "e-node-1747554153346-node-1747553988820-1747554433179",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554153346",
+      "sourceHandle": "left-source",
+      "target": "node-1747553997611",
+      "targetHandle": "right-target",
+      "id": "e-node-1747554153346-node-1747553997611-1747554436645",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554146345",
+      "sourceHandle": "left-source",
+      "target": "node-1747554153346",
+      "targetHandle": "top-target",
+      "id": "e-node-1747554146345-node-1747554153346-1747554448884",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554146345",
+      "sourceHandle": "right-source",
+      "target": "node-1747554169324",
+      "targetHandle": "top-target",
+      "id": "e-node-1747554146345-node-1747554169324-1747554456874",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554181893",
+      "sourceHandle": "left-source",
+      "target": "node-1747554169324",
+      "targetHandle": "right-target",
+      "id": "e-node-1747554181893-node-1747554169324-1747554463783",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554195631",
+      "sourceHandle": "bottom-source",
+      "target": "node-1747554181893",
+      "targetHandle": "top-target",
+      "id": "e-node-1747554195631-node-1747554181893-1747554472624",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554211437",
+      "sourceHandle": "bottom-source",
+      "target": "node-1747554195631",
+      "targetHandle": "top-target",
+      "id": "e-node-1747554211437-node-1747554195631-1747554476136",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554211437",
+      "sourceHandle": "top-source",
+      "target": "node-1747554235759",
+      "targetHandle": "bottom-target",
+      "id": "e-node-1747554211437-node-1747554235759-1747554498560",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554018106",
+      "sourceHandle": "bottom-source",
+      "target": "node-1747554076530",
+      "targetHandle": "bottom-target",
+      "id": "e-node-1747554018106-node-1747554076530-1747554514399",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747554018106",
+      "sourceHandle": "right-source",
+      "target": "node-1747554030797",
+      "targetHandle": "left-target",
+      "id": "e-node-1747554018106-node-1747554030797-1747554519658",
+      "animated": false
+    },
+    {
+      "type": "smoothstep",
+      "markerEnd": {
+        "type": "arrowclosed"
+      },
+      "style": {
+        "stroke": "#555",
+        "strokeWidth": 2
+      },
+      "source": "node-1747553979850",
+      "sourceHandle": "right-source",
+      "target": "node-1747554109166",
+      "targetHandle": "left-target",
+      "id": "e-node-1747553979850-node-1747554109166-1747554764047",
+      "animated": false
+    }
+  ]
+}
