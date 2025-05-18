@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { ReactFlowProvider } from 'reactflow';
-import { useSelector, useDispatch } from 'react-redux';
 import Sidebar from './components/Sidebar';
 import DiagramCanvas from './components/DiagramCanvas';
 import ChatPanel from './components/ChatPanel';
@@ -8,7 +7,6 @@ import Toolbar from './components/Toolbar';
 import { useDiagramHistory } from './hooks/useDiagramHistory';
 
 const App = () => {
-  const dispatch = useDispatch();
   const nodes = useSelector(state => state.diagram.nodes);
   const edges = useSelector(state => state.diagram.edges);
   const { handleUndo, handleRedo, canUndo, canRedo } = useDiagramHistory();
