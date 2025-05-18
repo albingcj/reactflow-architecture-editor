@@ -27,7 +27,17 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "globals": {
+      "React": true,
+      "useState": true,
+      "useEffect": true,
+      "useContext": true,
+      "useCallback": true,
+      "useMemo": true,
+      "useDispatch": true,
+      "useSelector": true
+    }
   },
   "browserslist": {
     "production": [
@@ -43,6 +53,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
+    "eslint": "^8.57.1",
+    "eslint-config-react-app": "^7.0.1",
     "postcss": "^8.5.3"
   }
 }

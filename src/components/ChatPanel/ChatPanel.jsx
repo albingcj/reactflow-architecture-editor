@@ -2,14 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addChatMessage } from "../../store/diagramSlice";
 import ChatMessage from "./ChatMessage";
-import { useServiceSearch } from "../../hooks/useServiceSearch";
 import awsServices from "../../assets/aws-services.json";
 
 const ChatPanel = ({ isCollapsed, onToggleCollapse }) => {
   const dispatch = useDispatch();
   const chatMessages = useSelector((state) => state.diagram.chatMessages);
   const [input, setInput] = useState("");
-  const { searchResults, setSearchTerm } = useServiceSearch();
   const messagesEndRef = useRef(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -93,7 +91,6 @@ const ChatPanel = ({ isCollapsed, onToggleCollapse }) => {
     // Handle search for services
     if (lowerCommand.startsWith("find") || lowerCommand.startsWith("search")) {
       const searchTerm = command.split(" ").slice(1).join(" ");
-      setSearchTerm(searchTerm);
 
       setTimeout(() => {
         const filteredServices = Object.keys(awsServices)
